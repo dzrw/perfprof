@@ -2,15 +2,20 @@
 
 if defined?(Grape::API) == 'constant' && Grape::API.class == Class
 
-  puts '[PerfProf] Grape support loaded'
+  puts '[PerfProf] Grape detected'
 
-  def self.dap_automount_available?
-    klass = DataAcquisition::Platform::Web::Grape::Automount
-    defn = defined?(DataAcquisition::Platform::Web::Grape::Automount)
-    defn == 'constant' && klass.class == Module
+  module PerfProf::Grape
+    def automount(klass)
+      defn = defined?(DataAcquisition::Platform::Web::Grape::Automount)
+      if defn == 'constant'
+        mod = DataAcquisition::Platform::Web::Grape::Automount
+        if mod.class == Module
+          klass.include(mod)
+          true
+        end
+      end
+    end
   end
-
-  module PerfProf::Grape; end
 
   require_relative 'grape/formatters/pprof_text_formatter'
   require_relative 'grape/resources/performance_profiles'

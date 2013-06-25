@@ -6,9 +6,7 @@ module PerfProf::Grape::Resources
   # A resource which manages a collection of performance profiles.
   class PerformanceProfiles < Grape::API
 
-    if dap_automount_available?
-      include DataAcquisition::Platform::Web::Grape::Automount
-    end
+    PerfProf::Grape::automount(self)
 
     resource :performance_profiles do
       content_type :pprof, 'text/pprof'
