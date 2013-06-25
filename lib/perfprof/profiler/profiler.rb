@@ -15,9 +15,8 @@ module PerfProf
 
       attr_reader :pstate
 
-      def initialize(mode = :dryrun)
+      def initialize
         @perftools_loaded = false
-        @mode = mode
       end
 
       def start(opts)
@@ -51,7 +50,7 @@ module PerfProf
       end
 
       def dryrun?
-        @mode == :dryrun
+        false # TODO
       end
 
       def profiling?

@@ -28,7 +28,7 @@ module Rack
     def initialize(app, options = {})
       @app = app
       @options = options
-      @profiler = PROFILER_KLASS.new(options.fetch(:mode, :dryrun))
+      @profiler = PROFILER_KLASS.new
     end
 
     def call(env)

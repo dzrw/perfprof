@@ -60,7 +60,7 @@ describe ::PerfProf::Profiler::Profiler do
     end
 
     it 'should be reusable' do
-      profiler = klass.new(:really)
+      profiler = klass.new
 
       args = {
         id: klass.make_profile_id,
