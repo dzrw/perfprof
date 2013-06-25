@@ -80,9 +80,9 @@ module PerfProf
         unset_env_vars
 
         case mode
-        when :realtime;  ENV['CPUPROFILE_REALTIME'] = 1
-        when :objects;   ENV['CPUPROFILE_OBJECTS'] = 1
-        when :methods;   ENV['CPUPROFILE_METHODS'] = 1
+        when :realtime;  ENV['CPUPROFILE_REALTIME'] = '1'
+        when :objects;   ENV['CPUPROFILE_OBJECTS'] = '1'
+        when :methods;   ENV['CPUPROFILE_METHODS'] = '1'
         end
 
         ENV['CPUPROFILE_FREQUENCY'] = frequency.to_s

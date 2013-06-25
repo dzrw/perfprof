@@ -1,8 +1,12 @@
 # encoding: utf-8
 module PerfProf
   # A simple, inline version of the profiler for use in, say, pry.
-  def self.profile(ttl = 250, mode = :cputime, frequency = 100)
+  def self.profile(opts)
     return unless block_given?
+
+    ttl       = opts.delete(:ttl) { 250 }
+    mode      = opts.delete(:mode) { :cputime }
+    frequency = opts.delete(:frequency) { 100 }
 
     opts = {
       id: ::PerfProf::Profiler::Profiler.make_profile_id,
