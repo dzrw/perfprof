@@ -11,3 +11,4 @@ module PerfProf; end
 require_relative 'perfprof/profiler'
 require_relative 'perfprof/grape'
 require_relative 'perfprof/rack'
+require_relative 'perfprof/debugger'
