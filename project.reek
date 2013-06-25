@@ -1,0 +1,21 @@
+---
+LongMethod:
+  max_statements: 7
+
+UtilityFunction: 
+  enabled: false
+
+FeatureEnvy:
+  enabled: false
+
+DataClump: 
+  enabled: false
+
+ControlCouple: 
+  enabled: false
+
+SimulatedPolymorphism: 
+  enabled: false
+
+NilCheck:
+  enabled: false
