@@ -1,12 +1,13 @@
 # encoding: utf-8
 
-if defined?(Grape::API) == 'constant' && Grape::API.class == 'Class'
+if defined?(Grape::API) == 'constant' && Grape::API.class == Class
 
-  puts "[PerfProf] Grape support loaded"
+  puts '[PerfProf] Grape support loaded'
 
   def self.dap_automount_available?
     klass = DataAcquisition::Platform::Web::Grape::Automount
-    defined?(DataAcquisition::Platform::Web::Grape::Automount) == 'constant' && klass.class == 'Module'
+    defn = defined?(DataAcquisition::Platform::Web::Grape::Automount)
+    defn == 'constant' && klass.class == Module
   end
 
   module PerfProf::Grape; end
