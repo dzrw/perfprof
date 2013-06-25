@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'socket'
 
 module PerfProf::Grape::Resources
 
@@ -14,21 +15,27 @@ module PerfProf::Grape::Resources
       formatter :pprof, PProfTextFormatter
 
       helpers do
+        def repository
+          ::PerfProf::Profiler::ProfilerStore
+        end
+
+        def perfprof
+          ::Rack::PerfProf
+        end
+
         def fetch_profile(id)
-          klass = ::PerfProf::Profiler::ProfileStore
-          res = klass.get(id)
+          res = repository.get(id)
           return nil unless res
           env['rack.pprof.inputfile'] = res[:path]
           res[:resource]
         end
 
         def delete_profile(id)
-          klass = ::PerfProf::Profiler::ProfileStore
-          klass.delete(id)
+          repository.delete(id)
         end
 
-        def start_recording(ttl, mode, frequency)
-          id = Rack::PerfProf.start_profiling(env, ttl, mode, frequency)
+        def create_profile(ttl, mode, frequency)
+          id = perfprof.profile!(env, ttl, mode, frequency)
           { id: id }
         end
       end
@@ -40,7 +47,7 @@ module PerfProf::Grape::Resources
 
         status 200
         { hostname: $hostname,
-          profiles: Profiler.profiles }
+          profiles: repository.all }
       end
 
       # GET /performance_profiles/:id
@@ -64,7 +71,7 @@ module PerfProf::Grape::Resources
           desc: 'The sampling frequency'
       end
       post do
-        res = start_recording(params.pluck(:ttl, :mode, :frequency))
+        res = create_profile(params.pluck(:ttl, :mode, :frequency))
 
         status 202
         header 'Location', "/performance_profiles/#{res[:id]}"

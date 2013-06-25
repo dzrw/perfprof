@@ -25,7 +25,7 @@ module Spec
       mode = @options[:mode]
       frequency = @options[:frequency]
 
-      ::Rack::PerfProf.start_profiling(env, ttl, mode, frequency)
+      ::Rack::PerfProf.profile!(env, ttl, mode, frequency)
 
       [200, {}, {}]
     end

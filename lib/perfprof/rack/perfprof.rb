@@ -9,7 +9,7 @@ module Rack
 
     class << self
 
-      def start_profiling(env, ttl, mode, frequency)
+      def profile!(env, ttl, mode, frequency)
         id = PROFILER_KLASS.make_profile_id
 
         env.merge!("#{RACK_ACTION}" => {

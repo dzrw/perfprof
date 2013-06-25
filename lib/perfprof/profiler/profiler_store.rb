@@ -21,9 +21,13 @@ module PerfProf
         end
 
         def all
-          Dir.glob('tmp/profiles/*').reject do |str|
-            str.end_with?('.partial')
-          end
+          # Incomplete profiles end with '.partial', and gperftools
+          # also writes symbol files which end with '.symbols'.  We
+          # don't include either in this collection.
+          Dir.glob('tmp/profiles/*').map do |str|
+            res = str.match(/(\d+_\d+)$/)
+            res.nil? ? nil : res[1]
+          end.compact
         end
 
         def get(key)
