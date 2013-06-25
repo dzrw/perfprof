@@ -5,12 +5,12 @@ if defined?(Grape::API) == 'constant' && Grape::API.class == Class
   puts '[PerfProf] Grape detected'
 
   module PerfProf::Grape
-    def automount(klass)
+    def self.automount(klass)
       defn = defined?(DataAcquisition::Platform::Web::Grape::Automount)
       if defn == 'constant'
         mod = DataAcquisition::Platform::Web::Grape::Automount
         if mod.class == Module
-          klass.include(mod)
+          klass.send :include, mod
           true
         end
       end

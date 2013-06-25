@@ -10,7 +10,7 @@ module PerfProf::Grape::Resources
 
     resource :performance_profiles do
       content_type :pprof, 'text/pprof'
-      formatter :pprof, PProfTextFormatter
+      formatter :pprof, PerfProf::Grape::Formatters::PProfTextFormatter
 
       helpers do
         def repository
