@@ -36,11 +36,18 @@ module Rack
 
       update_env!(env)
 
-      result = @app.call(env)
+      status, headers, body = @app.call(env)
 
       @profiler.start(start_args(env)) if start?(env)
 
-      result
+      if profiling?
+        headers.merge!({
+          'X-PerfProf-ProfileId' => @profiler.pstate.id,
+          'X-PerfProf-TTL' => @profiler.pstate.ttl
+        })
+      end
+
+      [status, headers, body]
     end
 
     def profiling?

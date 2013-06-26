@@ -60,6 +60,7 @@ module PerfProf
       private
 
       def unset_profiler_state
+        $stderr.puts "[PerfProf] profiler stopped on process with pid #{$$} (id=#{pstate.id}, ttl=#{pstate.ttl}, mode=#{pstate.mode})"
         unset_env_vars
         @pstate = nil
       end
@@ -67,6 +68,7 @@ module PerfProf
       def set_profiler_state(*args)
         @pstate = ::PerfProf::Profiler::ProfilerState.new(*args)
         set_env_vars(pstate.mode, pstate.frequency)
+        $stderr.puts "[PerfProf] profiler started on process with pid #{$$} (id=#{pstate.id}, ttl=#{pstate.ttl}, mode=#{pstate.mode})"
       end
 
       def unset_env_vars

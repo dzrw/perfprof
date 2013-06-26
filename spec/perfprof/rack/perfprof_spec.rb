@@ -34,6 +34,16 @@ end
 
 describe ::Rack::PerfProf do
 
+  it 'should add an action to the environment on #profile!' do
+    ttl = 250
+    mode = :cputime
+    frequency = 100
+
+    id = ::Rack::PerfProf.profile!(env = {}, ttl, mode, frequency)
+    expect(id.is_a?(String)).to eq(true)
+    expect(env.has_key?(::Rack::PerfProf::RACK_ACTION)).to eq(true)
+  end
+
   context 'when a nested middleware does not start profiling' do
     let(:subj) do
       ::Rack::PerfProf.new(

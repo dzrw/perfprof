@@ -9,6 +9,7 @@ module PerfProf::Grape::Resources
     PerfProf::Grape::automount(self)
 
     resource :performance_profiles do
+      content_type :json, "application/json"
       content_type :pprof, 'text/pprof'
       formatter :pprof, PerfProf::Grape::Formatters::PProfTextFormatter
 
@@ -69,7 +70,7 @@ module PerfProf::Grape::Resources
           desc: 'The sampling frequency'
       end
       post do
-        res = create_profile(params.pluck(:ttl, :mode, :frequency))
+        res = create_profile(*params.pluck(:ttl, :mode, :frequency))
 
         status 202
         header 'Location', "/performance_profiles/#{res[:id]}"
