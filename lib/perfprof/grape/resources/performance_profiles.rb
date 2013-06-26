@@ -9,9 +9,13 @@ module PerfProf::Grape::Resources
     PerfProf::Grape::automount(self)
 
     resource :performance_profiles do
-      content_type :json, "application/json"
+      content_type :json, 'application/json'
+
       content_type :pprof, 'text/pprof'
       formatter :pprof, PerfProf::Grape::Formatters::PProfTextFormatter
+
+      content_type :pprof_gif, 'image/gif'
+      formatter :pprof_gif, PerfProf::Grape::Formatters::PProfGifFormatter
 
       helpers do
         def repository
@@ -50,8 +54,11 @@ module PerfProf::Grape::Resources
       end
 
       # GET /performance_profiles/:id
-      get :id do |id|
-        res = fetch_profile(id)
+      params do
+        required :id, type: String, desc: 'Profile Id'
+      end
+      get ':id' do
+        res = fetch_profile(params[:id])
         if res
           status 200
           res
@@ -79,8 +86,11 @@ module PerfProf::Grape::Resources
       end
 
       # DELETE /performance_profiles/:id
-      delete :id do |id|
-        if delete_profile(id)
+      params do
+        required :id, type: String, desc: 'Profile Id'
+      end
+      delete ':id' do
+        if delete_profile(params[:id])
           status 204
         else
           status 404

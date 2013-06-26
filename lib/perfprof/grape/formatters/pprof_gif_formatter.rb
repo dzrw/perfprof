@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 module PerfProf::Grape::Formatters
-  module PProfTextFormatter
+  module PProfGifFormatter
 
-    PRINTER = :text
+    PRINTER = :gif
 
     def self.call(object, env)
       object # Because Reek™

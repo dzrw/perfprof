@@ -42,8 +42,8 @@ module Rack
 
       if profiling?
         headers.merge!({
-          'X-PerfProf-ProfileId' => @profiler.pstate.id,
-          'X-PerfProf-TTL' => @profiler.pstate.ttl
+          'X-PerfProf-ProfileId' => "#{@profiler.pstate.id}",
+          'X-PerfProf-TTL' => "#{@profiler.pstate.ttl}"
         })
       end
 

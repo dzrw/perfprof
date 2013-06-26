@@ -13,7 +13,7 @@ module PerfProf
         end
 
         def make_profile_id
-          "#{Time.now.to_i}_#{$$}"
+          "#{Time.now.to_i}P#{$$}"
         end
 
         def make_profile_path(key)
@@ -25,7 +25,7 @@ module PerfProf
           # also writes symbol files which end with '.symbols'.  We
           # don't include either in this collection.
           Dir.glob('tmp/profiles/*').map do |str|
-            res = str.match(/(\d+_\d+)$/)
+            res = str.match(/(\d+P\d+)$/)
             res.nil? ? nil : res[1]
           end.compact
         end
