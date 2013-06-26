@@ -6,6 +6,7 @@ module Rack
 
     RACK_ACTION = 'rack.perfprof.action'
     PROFILER_KLASS = ::PerfProf::Profiler::Profiler
+    IF_MATCH_PID = 'HTTP_IF_MATCH_PID'
 
     class << self
 
@@ -32,6 +33,8 @@ module Rack
     end
 
     def call(env)
+      return precondition_failed_response unless match_pid(env)
+
       @profiler.stop
 
       update_env!(env)
@@ -75,5 +78,20 @@ module Rack
     def start_args(env)
       env.delete(RACK_ACTION)
     end
+
+    def match_pid(env)
+      env.fetch(IF_MATCH_PID, '-1') == $$.to_s
+    end
+
+    def precondition_failed_response
+      [
+        412,
+        { 'Content-Type' => 'text/plain' },
+        'This request was rejected because the requested worker process ID ' +
+        'does not match the actual worker process ID.  Please try your ' +
+        'request again; it take a few tries to get the desired process.'
+      ]
+    end
+
   end
 end
