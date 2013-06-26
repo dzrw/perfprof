@@ -80,17 +80,15 @@ module Rack
     end
 
     def match_pid(env)
-      env.fetch(IF_MATCH_PID, '-1') == $$.to_s
+      env.fetch(IF_MATCH_PID, $$.to_s) == $$.to_s
     end
 
     def precondition_failed_response
-      [
-        412,
-        { 'Content-Type' => 'text/plain' },
-        'This request was rejected because the requested worker process ID ' +
-        'does not match the actual worker process ID.  Please try your ' +
-        'request again; it take a few tries to get the desired process.'
-      ]
+      body = 'This request was rejected because the requested worker ' +
+      'process ID does not match the actual worker process ID.  Please try ' +
+      'your request again; it may take a few tries to get the desired process.'
+
+      [412, { 'Content-Type' => 'text/plain' }, [body]]
     end
 
   end
