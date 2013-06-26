@@ -66,7 +66,7 @@ module PerfProf::Grape::Resources
       end
 
       params do
-        required :id, type: String, desc: 'Profile Id'
+        requires :id, type: String, desc: 'Profile Id'
       end
       segment ':id' do
 

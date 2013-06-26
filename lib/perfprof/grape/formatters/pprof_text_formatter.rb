@@ -9,10 +9,9 @@ module PerfProf::Grape::Formatters
       object # Because Reek™
 
       inputfile = env['rack.pprof.inputfile']
-      options = {}
 
-      if ::File.exists?(inputfile)
-        ::PerfProf::Profiler::PProfWrapper.pprof(inputfile, PRINTER, options)
+      if !inputfile.nil? && ::File.exists?(inputfile)
+        ::PerfProf::Profiler::PProfWrapper.pprof(inputfile, PRINTER, {})
       end
     end
   end
